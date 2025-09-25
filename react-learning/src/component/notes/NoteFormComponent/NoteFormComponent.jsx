@@ -1,20 +1,32 @@
 import React, { useState } from "react";
 import styles from "./noteFormStyles.module.css";
-function NoteFormComponent() {
+function NoteFormComponent({onAddNote}) {
   
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [body, setBody] = useState("");
   const [showForm, setShowForm] = useState(false);  
 
   
   const showNoteCreationForm = () =>{
-        setShowForm(!showForm)
+        setShowForm(!showForm);
+  }
+
+  const handleSubmit = (e)=>{
+    e.preventDefault();
+    setTitle("");
+    setBody("");
+    onAddNote(title, body);
+    setShowForm(false);    
   }
 
   return (
     <div className={styles["create-note-container"]}>
       <button onClick={showNoteCreationForm} >Create New Note</button>
-      <form className= { `${styles.noteForm} ${showForm? styles.showNoteForm : ""}` } action="">
+      <form 
+        className= { `${styles.noteForm} ${showForm? styles.showNoteForm : ""}` } 
+        action=""
+        onSubmit={handleSubmit}
+        >
         <input
           type="text"
           placeholder="Tittle"
@@ -25,14 +37,14 @@ function NoteFormComponent() {
         <textarea
           name=""
           id=""
-          value={description}
+          value={body}
           placeholder="Note Description"
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) => setBody(e.target.value)}
         ></textarea>
 
         <div className={styles.formButton}>
           <button type="submit">Add Note</button>
-          <button type="submit">Cancel</button>
+          <button>Cancel</button>
         </div>
       </form>
 
