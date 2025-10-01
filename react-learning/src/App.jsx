@@ -2,7 +2,7 @@ import './App.css'
 import NoteComponent from './component/notes/NoteComponent';
 
 function App() {
-  let user = "Someone Great";
+  let user = "Sadeq";
 
   return (
     <div>

@@ -17,14 +17,21 @@ function NoteComponent() {
 
   const addNote =(title, body)=>{
     let note = {title, body};
+    note.isCompleted = false;
     let newArr = [...notes, note];
     setNotes(newArr);
+  }
+
+  function updateNote(index, newNote){
+    let updatedNotes = [...notes];
+    updatedNotes[index] = newNote;
+    setNotes(updatedNotes);
   }
 
 
   return (
     <>
-        <NoteListComponent notes = {notes} onDeleteNote = {deleteNote} />
+        <NoteListComponent notes = {notes} onDeleteNote = {deleteNote} onUpdateNote = {updateNote} />
         <NoteFormComponent  onAddNote = {addNote}/>
     </>
   )
