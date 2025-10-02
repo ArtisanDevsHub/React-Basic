@@ -2,7 +2,7 @@
 
 function Test() {
   return (
-    <div>Test</div>
+    <div>Testing</div>
   )
 }
 
