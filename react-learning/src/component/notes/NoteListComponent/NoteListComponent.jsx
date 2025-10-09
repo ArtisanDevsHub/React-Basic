@@ -1,8 +1,15 @@
 import { React, useState } from "react";
 import styles from "./NoteListComponent.module.css";
+import EditNoteModal from "../EditNoteModal/EditNoteModal";
 
 function NoteListComponent({ notes, onDeleteNote, onUpdateNote }) {
+  
   const [openRows, setOpenRows] = useState([]);
+
+  const [isModalOpen, setIsModalOpen ] =  useState(false);
+  const [editIndex, setEditIndex] = useState(null);
+  const [editModalValues, setEditModalValues] = useState({title: '', body: ''});
+
 
   const toggleExpandedRow = (index) => {
     if (openRows.includes(index)) {
@@ -62,7 +69,17 @@ function NoteListComponent({ notes, onDeleteNote, onUpdateNote }) {
                       </button>
                       
                       
-                      <button type="button" className="btn btn-info btn-sm m-1">
+                      <button 
+                        type="button" 
+                        className="btn btn-info btn-sm m-1"
+                        onClick={
+                          ()=>{
+                           setEditIndex(index);
+                           setEditModalValues(prev => ({...prev, title: item.title , body: item.body})) 
+                           setIsModalOpen(true);
+                          }
+                        }
+                      >
                         Edit
                       </button>
                       
@@ -85,6 +102,22 @@ function NoteListComponent({ notes, onDeleteNote, onUpdateNote }) {
       ) : (
         <p>Note notes available</p>
       )}
+
+      <EditNoteModal 
+        isOpen={isModalOpen} 
+        editFormNote={editModalValues}
+        onClose={()=> setIsModalOpen(false)}  
+        onSave={
+          ()=>{
+            onUpdateNote(editIndex, {
+              title: editModalValues.title,
+              body : editModalValues.body
+            });
+            setIsModalOpen(false);
+          }
+        }
+        onChangeNote={setEditModalValues} 
+      />        
     </div>
   );
 }
